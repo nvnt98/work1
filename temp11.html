@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en" data-color-mode="dark" data-dark-theme="dark" data-light-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; script-src 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://cdnjs.cloudflare.com; img-src data: blob: https:; media-src data: blob: https:; font-src data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;">
+  <title>Markdown Export</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.3.0/github-markdown-dark.min.css" integrity="sha384-tah+rtrY/RrDGiE3nwf/q5WWsyjjRO4iOPWuZi/NpDqjWEEsEU9fPpjX2f5lremS" crossorigin="anonymous">
+  <script>
+      window.MathJax = {
+          loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
+          tex: {
+              inlineMath: [['$', '$'], ['\\(', '\\)']],
+              displayMath: [['$$', '$$'], ['\\[', '\\]']],
+              processEscapes: true,
+              packages: { '[+]': ['ams', 'boldsymbol'] }
+          }
+      };
+  </script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" integrity="sha384-M5jmNxKC9EVnuqeMwRHvFuYUE8Hhp0TgBruj/GZRkYtiMrCRgH7yvv5KY+Owi7TW" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js" integrity="sha384-zkWMJO4sgpPUzyuOgDx8HB/K55glbAwajEpk1Go2NWRuPkPA/wIhoEJTuSkmOYrV" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/6.5.2/abcjs-basic-min.js" integrity="sha384-nxKtRsFgPYIlwn4dow7ndIEZj9Ud11cUkJdJVOUjHhm8dFHiL0+VF356f6xBzeaL" crossorigin="anonymous"></script>
+  <style>
+      :root, html, body, .markdown-body {
+          color-scheme: dark !important;
+          --color-canvas-default: #0d1117 !important;
+          --color-canvas-subtle: #161b22 !important;
+          --color-border-default: #30363d !important;
+          --color-border-muted: #21262d !important;
+          --color-fg-default: #c9d1d9 !important;
+          --color-fg-muted: #8b949e !important;
+          --color-fg-subtle: #6e7681 !important;
+      }
+      html {
+          background-color: #0d1117 !important;
+      }
+      body {
+          margin: 0;
+          background-color: #0d1117 !important;
+          color: #c9d1d9 !important;
+      }
+      .markdown-body {
+          box-sizing: border-box;
+          min-width: 200px;
+          max-width: 100%;
+          width: fit-content;
+          margin: 0 auto;
+          padding: 45px;
+          background-color: #0d1117 !important;
+          color: #c9d1d9 !important;
+      }
+      .markdown-body table {
+          border-collapse: collapse !important;
+          width: 100% !important;
+      }
+      .markdown-body table tr {
+          background-color: #0d1117 !important;
+          border-top: 1px solid #30363d !important;
+      }
+      .markdown-body table tr:nth-child(2n) {
+          background-color: #161b22 !important;
+      }
+      .markdown-body table th,
+      .markdown-body table td {
+          border: 1px solid #30363d !important;
+          color: #c9d1d9 !important;
+      }
+      .markdown-body table th {
+          background-color: #161b22 !important;
+          font-weight: 600 !important;
+      }
+      .markdown-body table td {
+          background-color: transparent !important;
+      }
+      .markdown-body blockquote:not(.markdown-alert) {
+          color: #8b949e !important;
+          border-left: 0.25em solid #30363d !important;
+          background-color: transparent !important;
+      }
+      .markdown-body hr {
+          background-color: #30363d !important;
+          border: 0 !important;
+          border-bottom: 1px solid #30363d !important;
+          height: 0.25em !important;
+      }
+      .markdown-body code,
+      .markdown-body tt {
+          background-color: rgba(110, 118, 129, 0.4) !important;
+          color: #c9d1d9 !important;
+      }
+      .markdown-body pre {
+          background-color: #161b22 !important;
+      }
+      .markdown-body pre code {
+          background-color: transparent !important;
+      }
+      .markdown-body > p,
+      .markdown-body > ul,
+      .markdown-body > ol,
+      .markdown-body > blockquote,
+      .markdown-body > h1,
+      .markdown-body > h2,
+      .markdown-body > h3,
+      .markdown-body > h4,
+      .markdown-body > h5,
+      .markdown-body > h6,
+      .markdown-body > pre,
+      .markdown-body > table,
+      .markdown-body > details,
+      .markdown-body > dl,
+      .markdown-body > hr {
+          max-width: 980px;
+          margin-left: auto !important;
+          margin-right: auto !important;
+      }
+
+
+      /* Syntax Highlighting */
+      .hljs-doctag, .hljs-keyword, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-variable.language_ { color: #ff7b72; }
+      .hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__, .hljs-title.function_ { color: #d2a8ff; }
+      .hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta, .hljs-number, .hljs-operator, .hljs-variable, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id { color: #79c0ff; }
+      .hljs-regexp, .hljs-string, .hljs-meta .hljs-string { color: #a5d6ff; }
+      .hljs-built_in, .hljs-symbol { color: #ffa657; }
+      .hljs-comment, .hljs-code, .hljs-formula { color: #8b949e; }
+      .hljs-name, .hljs-quote, .hljs-selector-tag, .hljs-selector-pseudo { color: #7ee787; }
+      .hljs-subst { color: #c9d1d9; }
+      .hljs-section { color: #1f6feb; font-weight: bold; }
+      .hljs-bullet { color: #79c0ff; }
+      .hljs-emphasis { font-style: italic; }
+      .hljs-strong { font-weight: bold; }
+      .hljs-addition { color: #aff5b4; background-color: #033a16; }
+      .hljs-deletion { color: #ffdcd7; background-color: #67060c; }
+
+      .markdown-alert {
+          padding: 0.5rem 1rem;
+          margin-bottom: 16px;
+          border-left: 0.25em solid;
+          border-radius: 0.375rem;
+      }
+      .markdown-alert > :last-child {
+          margin-bottom: 0;
+      }
+      .markdown-alert-title {
+          margin: 0 0 8px;
+          font-weight: 600;
+          line-height: 1.25;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+      }
+      .markdown-alert-icon {
+          display: inline-flex;
+          width: 16px;
+          height: 16px;
+      }
+      .markdown-alert-icon svg {
+          width: 16px;
+          height: 16px;
+          fill: currentColor;
+      }
+      .markdown-alert-note { color: #4493f8; border-left-color: #4493f8; background-color: rgba(31, 111, 235, 0.15); }
+      .markdown-alert-tip { color: #3fb950; border-left-color: #3fb950; background-color: rgba(35, 134, 54, 0.15); }
+      .markdown-alert-important { color: #ab7df8; border-left-color: #ab7df8; background-color: rgba(137, 87, 229, 0.15); }
+      .markdown-alert-warning { color: #d29922; border-left-color: #d29922; background-color: rgba(210, 153, 34, 0.18); }
+      .markdown-alert-caution { color: #f85149; border-left-color: #f85149; background-color: rgba(248, 81, 73, 0.18); }
+      .markdown-alert > *:not(.markdown-alert-title) { color: #c9d1d9; }
+
+      .frontmatter-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 24px;
+          font-size: 14px;
+      }
+      .frontmatter-table th,
+      .frontmatter-table td {
+          border: 1px solid #30363d;
+          padding: 8px 12px;
+          text-align: left;
+      }
+      .frontmatter-table th {
+          font-weight: 600;
+          background-color: #161b22;
+          width: 150px;
+      }
+
+      /* Footnote styles */
+      .footnotes {
+          margin-top: 1.5rem;
+          font-size: 0.9em;
+          border-top: 1px solid #30363d;
+          padding-top: 8px;
+      }
+      .footnotes ol {
+          padding-left: 1.5em;
+      }
+      .footnotes ol > li::marker {
+          content: "[" counter(list-item) "] ";
+          font-weight: 600;
+      }
+      .footnotes li > p {
+          margin: 0.2em 0;
+      }
+      .footnote-ref a,
+      .footnote-backref {
+          text-decoration: none;
+      }
+      .footnote-backref {
+          margin-left: 0.4em;
+      }
+      a.reference-link {
+          font-size: 0.75em;
+          letter-spacing: -0.02em;
+          line-height: 1;
+          vertical-align: super;
+          position: relative;
+          top: 0.08em;
+      }
+
+      /* Mermaid and Math styles */
+      .mermaid-container {
+          position: relative;
+          margin-bottom: 16px;
+      }
+      .math-block {
+          margin: 1em 0;
+          overflow-x: auto;
+          text-align: center;
+      }
+      .abc-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 1.5em 0;
+          padding: 1.25em;
+          background-color: #161b22;
+          border: 1px solid #30363d;
+          border-radius: 6px;
+          overflow-x: auto;
+      }
+      .abc-notation {
+          width: 100%;
+      }
+      .abc-notation svg {
+          background: transparent !important;
+          color: #c9d1d9 !important;
+          display: block;
+          margin: 0 auto;
+      }
+      .abc-notation svg path {
+          fill: currentColor;
+      }
+      .abc-notation svg text {
+          fill: currentColor !important;
+          stroke: none !important;
+      }
+      .abc-notation svg .abcjs-staff,
+      .abc-notation svg .abcjs-staff-extra,
+      .abc-notation svg .abcjs-bar,
+      .abc-notation svg .abcjs-ledger,
+      .abc-notation svg .abcjs-stem,
+      .abc-notation svg .abcjs-beam,
+      .abc-notation svg .abcjs-slur,
+      .abc-notation svg .abcjs-tie {
+          stroke: currentColor !important;
+      }
+      .abc-notation svg .abcjs-staff,
+      .abc-notation svg .abcjs-staff-extra,
+      .abc-notation svg .abcjs-ledger,
+      .abc-notation svg .abcjs-slur,
+      .abc-notation svg .abcjs-tie,
+      .abc-notation svg .abcjs-stem {
+          fill: none !important;
+      }
+      .abc-sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+      }
+
+      .diagram-status,
+      .diagram-toolbar,
+      .mermaid-toolbar,
+      .abc-toolbar {
+          display: none !important;
+      }
+
+      @media (max-width: 767px) {
+          .markdown-body {
+              padding: 15px;
+          }
+      }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+      <h1 id="infybank360---requirement-specification">InfyBank360 - Requirement Specification</h1><blockquote>
+<p><strong>Note to the reader (Navneet):</strong> This document describes <strong>what</strong> the InfyBank360 system must do and <strong>why</strong> — it intentionally does <strong>not</strong> describe <strong>how</strong> it will be implemented. The implementation details (Java code, Spring annotations, database schemas, configuration files, etc.) will be covered later in the technical specification (<code>spec.md</code>). Treat this document as the "contract" that the development team agrees on before writing any code.</p>
+</blockquote>
+<hr>
+<h2 id="1-document-information">1. Document Information</h2><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Project Name</strong></td>
+<td>InfyBank360</td>
+</tr>
+<tr>
+<td><strong>Document Title</strong></td>
+<td>Requirement Specification</td>
+</tr>
+<tr>
+<td><strong>Document Version</strong></td>
+<td>1.0</td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>October 07, 2026</td>
+</tr>
+<tr>
+<td><strong>Author</strong></td>
+<td>Business Analysis &amp; Architecture Team</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Draft — Approved for MVP Development</td>
+</tr>
+<tr>
+<td><strong>Target Audience</strong></td>
+<td>Developers, Architects, QA, Product Owner</td>
+</tr>
+<tr>
+<td><strong>Implementation Window</strong></td>
+<td>Approximately 1 week (MVP)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="2-project-overview">2. Project Overview</h2><p><strong>InfyBank360</strong> is a secure, educational digital banking platform designed to demonstrate modern microservice architecture using Spring Boot. It gives customers convenient access to everyday banking services (accounts, transfers, bill payments, loans, service requests) and gives bank employees the tools to support customers, process requests, and monitor activity.</p>
+<p>The platform is intentionally <strong>simplified</strong> — it is <strong>not</strong> a production banking system. It is a learning-oriented MVP that showcases:</p>
+<ul>
+<li>Microservice decomposition</li>
+<li>REST API design</li>
+<li>Service-to-service communication</li>
+<li>Database-per-service pattern</li>
+<li>Authentication, authorization, and auditability</li>
+<li>Basic fraud rules and notifications</li>
+</ul>
+<p>External systems (payment gateways, SMS/email providers, credit bureaus) are <strong>mocked</strong> to keep the scope realistic for a one-week implementation.</p>
+<hr>
+<h2 id="3-project-objectives">3. Project Objectives</h2><p>The project must deliver a working MVP that demonstrates the following capabilities:</p>
+<ol>
+<li><strong>Spring Boot 3.x microservices</strong> running on Java 21.</li>
+<li><strong>REST APIs</strong> exposed through a single API Gateway.</li>
+<li><strong>Service discovery</strong> via Eureka so services find each other dynamically.</li>
+<li><strong>Database-per-service</strong> using PostgreSQL (each service owns its data).</li>
+<li><strong>JWT-based authentication</strong> with role-based authorization (CUSTOMER, EMPLOYEE, ADMIN).</li>
+<li><strong>Synchronous inter-service communication</strong> using REST (RestClient/WebClient).</li>
+<li><strong>Input validation</strong> and <strong>global exception handling</strong> with consistent error responses.</li>
+<li><strong>Transaction processing</strong> that maintains consistent account balances.</li>
+<li><strong>Basic rule-based fraud detection</strong> (thresholds, account status checks).</li>
+<li><strong>Notifications</strong> persisted in the database (no real email/SMS required).</li>
+<li><strong>Audit logging</strong> for important banking operations.</li>
+<li><strong>OpenAPI/Swagger documentation</strong> for every service.</li>
+<li><strong>Automated unit tests</strong> using JUnit 5 and Mockito.</li>
+</ol>
+<p>The MVP must be <strong>implementable in approximately one week</strong> by a small team. Simplicity and clarity are prioritized over feature volume.</p>
+<hr>
+<h2 id="4-scope">4. Scope</h2><h3 id="41-in-scope">4.1 In Scope</h3><ul>
+<li>Customer registration and login</li>
+<li>Employee and administrator login</li>
+<li>JWT-based authentication and role-based authorization</li>
+<li>Customer profile management</li>
+<li>Bank account creation, viewing, and balance checks</li>
+<li>Money transfers between accounts (internal)</li>
+<li>Transaction history viewing</li>
+<li>Bill payments (electricity, mobile, internet, water) with a mocked payment gateway</li>
+<li>Loan application submission, viewing, and employee/admin approval or rejection</li>
+<li>Service request creation and status updates by employees</li>
+<li>Notification generation and history (stored in DB)</li>
+<li>Basic rule-based fraud monitoring</li>
+<li>Audit logging for key operations</li>
+<li>API Gateway for unified entry point</li>
+<li>Eureka service discovery</li>
+<li>PostgreSQL persistence</li>
+<li>REST-based inter-service communication</li>
+<li>OpenAPI documentation</li>
+<li>Unit tests</li>
+</ul>
+<h3 id="42-out-of-scope">4.2 Out of Scope</h3><p>The following are explicitly <strong>excluded</strong> from the MVP. They may be considered as future enhancements.</p>
+<ul>
+<li>Real money movement or integration with a core banking system</li>
+<li>Real payment gateway integration (e.g., Stripe, Razorpay)</li>
+<li>Real SMS or email providers (Twilio, SendGrid, etc.)</li>
+<li>Advanced fraud detection using machine learning</li>
+<li>Credit bureau integration</li>
+<li>KYC/AML external integrations</li>
+<li>Kubernetes, AWS, or advanced cloud infrastructure</li>
+<li>Event streaming platforms (Kafka, RabbitMQ) — unless strictly justified later</li>
+<li>High-frequency trading or complex regulatory reporting</li>
+<li>Production-grade disaster recovery and multi-region deployment</li>
+<li>Multi-currency support</li>
+<li>Mobile or web UI (APIs only for the MVP)</li>
+</ul>
+<hr>
+<h2 id="5-actors">5. Actors</h2><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Actor</th>
+<th>Description</th>
+<th>Primary Interactions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>Customer</strong></td>
+<td>An end-user who holds one or more bank accounts with InfyBank360.</td>
+<td>Registers, logs in, views accounts/balances, transfers money, pays bills, applies for loans, raises service requests, views notifications.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Bank Employee</strong></td>
+<td>A staff member who supports customers and processes operational requests.</td>
+<td>Logs in, onboards customers, views customer and account information, approves/rejects loans, updates service request status, monitors transactions.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Bank Administrator</strong></td>
+<td>A privileged staff member with elevated access for oversight and compliance.</td>
+<td>Performs all employee actions plus system oversight, audit review, and configuration of fraud thresholds.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>External System</strong></td>
+<td>A placeholder for third-party integrations (payment gateway, notification provider, external financial institutions).</td>
+<td>In the MVP, these are <strong>mocked</strong> inside the respective services. No real external calls are made.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="6-system-overview">6. System Overview</h2><p>InfyBank360 is composed of multiple independently deployable microservices behind a single <strong>API Gateway</strong>. Services register themselves with <strong>Eureka</strong> for discovery. Customers and employees interact only through the gateway. Services communicate with each other over <strong>synchronous REST</strong> calls. Each service owns its own <strong>PostgreSQL database</strong> and never reads another service's database directly.</p>
+<p>A high-level view of the logical components:</p>
+<pre><code class="hljs plaintext">[ Customer / Employee / Admin ]
+              |
+              v
+        [ API Gateway ]  ----&gt; [ Eureka Service Registry ]
+              |
+   +----------+----------+----------+----------+----------+
+   |          |          |          |          |          |
+[Auth]    [Customer]  [Account] [Transaction] [Payment] [Loan]
+   |          |          |          |          |          |
+   +----------+----------+----------+----------+----------+
+              |                                     |
+        [Notification]  &lt;---------------------------+
+              |
+        [PostgreSQL DB per service]</code></pre><p>This structure keeps responsibilities clear, allows services to evolve independently, and mirrors real-world banking architecture at an educational scale.</p>
+<hr>
+<h2 id="7-functional-areas">7. Functional Areas</h2><h3 id="71-authentication">7.1 Authentication</h3><ul>
+<li>Customer registration with validated personal information.</li>
+<li>Customer, employee, and administrator login issuing a JWT.</li>
+<li>Role-based authorization (CUSTOMER, EMPLOYEE, ADMIN).</li>
+<li>Passwords hashed using BCrypt; never stored in plain text.</li>
+<li>Invalid login attempts handled with clear error messages.</li>
+<li>JWT validated on every protected request.</li>
+</ul>
+<h3 id="72-customer-management">7.2 Customer Management</h3><ul>
+<li>Maintain customer profile (name, email, phone, address, status).</li>
+<li>Customer onboarding performed by employees/admins.</li>
+<li>Customers can view and update their own profile.</li>
+<li>Employees/admins can look up customers.</li>
+<li>Customer status: ACTIVE, INACTIVE, BLOCKED.</li>
+</ul>
+<h3 id="73-account-management">7.3 Account Management</h3><ul>
+<li>Create bank accounts linked to a customer.</li>
+<li>View account details and current balance.</li>
+<li>View all accounts belonging to a customer.</li>
+<li>Account status: ACTIVE, INACTIVE, BLOCKED, CLOSED.</li>
+<li>Basic validation (e.g., account exists, is active, belongs to the caller).</li>
+</ul>
+<h3 id="74-transaction-management">7.4 Transaction Management</h3><ul>
+<li>Internal money transfers between accounts.</li>
+<li>Debit and credit operations that update balances atomically.</li>
+<li>Transaction history per account.</li>
+<li>Transaction status: SUCCESS, FAILED, PENDING, FLAGGED.</li>
+<li>Validation: sufficient balance, active accounts, positive amount, matching source and destination.</li>
+<li>Insufficient balance and invalid account scenarios handled gracefully.</li>
+</ul>
+<h3 id="75-payment-management">7.5 Payment Management</h3><ul>
+<li>Bill payments for categories: Electricity, Mobile, Internet, Water.</li>
+<li>Payment status: SUCCESS, FAILED, PENDING.</li>
+<li>Payment history per customer.</li>
+<li>Payment gateway is <strong>mocked</strong> — payments succeed deterministically for valid requests.</li>
+</ul>
+<h3 id="76-loan-management">7.6 Loan Management</h3><ul>
+<li>Customers submit loan applications (amount, tenure, purpose).</li>
+<li>Customers view their own loan applications.</li>
+<li>Employees/admins approve or reject loan applications.</li>
+<li>Loan status: PENDING, APPROVED, REJECTED.</li>
+</ul>
+<h3 id="77-service-requests">7.7 Service Requests</h3><ul>
+<li>Customers raise service requests with a category (e.g., Card Block, Statement Request, Account Update).</li>
+<li>Customers view their own service requests.</li>
+<li>Employees update service request status.</li>
+<li>Status: OPEN, IN_PROGRESS, RESOLVED.</li>
+</ul>
+<h3 id="78-notification-management">7.8 Notification Management</h3><ul>
+<li>Notifications generated for important events (transaction, payment, loan status change, service request update).</li>
+<li>Notifications persisted in the database (no real email/SMS).</li>
+<li>Customers can view their notification history.</li>
+</ul>
+<h3 id="79-fraud-monitoring">7.9 Fraud Monitoring</h3><p>Simple <strong>rule-based</strong> fraud detection only. No machine learning.</p>
+<p>Example rules:</p>
+<ul>
+<li>Transactions above a configurable threshold are flagged.</li>
+<li>Transactions from inactive or blocked accounts are rejected.</li>
+<li>Transactions exceeding available balance are rejected.</li>
+<li>Multiple rapid transfers from the same account may be flagged.</li>
+</ul>
+<h3 id="710-audit-and-compliance">7.10 Audit and Compliance</h3><p>Audit records are created for important operations:</p>
+<ul>
+<li>Login</li>
+<li>Account creation</li>
+<li>Money transfer</li>
+<li>Payment</li>
+<li>Loan submission / approval / rejection</li>
+<li>Service request updates</li>
+</ul>
+<p>Audit records capture <strong>who</strong>, <strong>what</strong>, <strong>when</strong>, and <strong>outcome</strong> (success/failure). Detailed regulatory reporting is out of scope.</p>
+<hr>
+<h2 id="8-user-stories">8. User Stories</h2><h3 id="us-001--customer-registration">US-001 — Customer Registration</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to register with my personal details so that I can access digital banking services.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Required fields (name, email, phone, password) must be provided.</li>
+<li>Email must be valid and unique.</li>
+<li>Password must meet minimum security requirements.</li>
+<li>Password must not be stored in plain text.</li>
+<li>Successful registration returns a confirmation response.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P0</li>
+</ul>
+<h3 id="us-002--customer-login">US-002 — Customer Login</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to log in with my credentials so that I can access my accounts.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Valid credentials return a JWT.</li>
+<li>Invalid credentials return a clear error.</li>
+<li>The JWT contains the user's role.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P0</li>
+</ul>
+<h3 id="us-003--employee--admin-login">US-003 — Employee / Admin Login</h3><ul>
+<li><strong>Actor:</strong> Bank Employee / Bank Administrator</li>
+<li><strong>Story:</strong> As an employee or admin, I want to log in so that I can perform operational tasks.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Valid credentials return a JWT with EMPLOYEE or ADMIN role.</li>
+<li>Invalid credentials return a clear error.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P0</li>
+</ul>
+<h3 id="us-004--view-account-balance">US-004 — View Account Balance</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to view my account balance so that I know how much money I have.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only the account owner can view the balance.</li>
+<li>The response includes the current balance and account status.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P0</li>
+</ul>
+<h3 id="us-005--transfer-money">US-005 — Transfer Money</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to transfer money to another account so that I can pay someone.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Source and destination accounts must exist and be active.</li>
+<li>Transfer amount must be greater than zero.</li>
+<li>Source account must have sufficient balance.</li>
+<li>On success, balances are updated and a transaction record is created.</li>
+<li>On failure, balances remain unchanged and a clear error is returned.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P0</li>
+</ul>
+<h3 id="us-006--view-transaction-history">US-006 — View Transaction History</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to view my transaction history so that I can review my activity.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only the account owner can view the history.</li>
+<li>Transactions are returned in reverse chronological order.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P0</li>
+</ul>
+<h3 id="us-007--pay-a-bill">US-007 — Pay a Bill</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to pay a utility bill so that I can settle my dues.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Supported categories: Electricity, Mobile, Internet, Water.</li>
+<li>Sufficient balance is required.</li>
+<li>The payment gateway is mocked and returns a deterministic result.</li>
+<li>A payment record and a notification are created on success.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-008--apply-for-a-loan">US-008 — Apply for a Loan</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to apply for a loan so that I can borrow money.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Loan application captures amount, tenure, and purpose.</li>
+<li>Initial status is PENDING.</li>
+<li>A notification is generated on submission.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-009--approve-or-reject-a-loan">US-009 — Approve or Reject a Loan</h3><ul>
+<li><strong>Actor:</strong> Bank Employee / Bank Administrator</li>
+<li><strong>Story:</strong> As an employee or admin, I want to approve or reject a loan application so that the customer's request is resolved.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only EMPLOYEE or ADMIN roles can perform this action.</li>
+<li>Status transitions from PENDING to APPROVED or REJECTED.</li>
+<li>A notification is sent to the customer.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-010--raise-a-service-request">US-010 — Raise a Service Request</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to raise a service request so that the bank can help me with an issue.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Request includes a category and description.</li>
+<li>Initial status is OPEN.</li>
+<li>A notification is generated.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-011--update-service-request-status">US-011 — Update Service Request Status</h3><ul>
+<li><strong>Actor:</strong> Bank Employee</li>
+<li><strong>Story:</strong> As an employee, I want to update a service request's status so that the customer is informed of progress.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only EMPLOYEE or ADMIN roles can update status.</li>
+<li>Valid transitions: OPEN → IN_PROGRESS → RESOLVED.</li>
+<li>A notification is sent to the customer.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-012--view-notifications">US-012 — View Notifications</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to view my notifications so that I am informed about important events.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only the customer's own notifications are returned.</li>
+<li>Notifications include type, message, and timestamp.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-013--view-customer-profile">US-013 — View Customer Profile</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to view my profile so that I can verify my details.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only the customer's own profile is accessible.</li>
+<li>Profile includes name, email, phone, address, and status.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-014--view-account-details">US-014 — View Account Details</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to view my account details so that I can confirm account information.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only the account owner can view the details.</li>
+<li>Response includes account number, type, status, and balance.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P0</li>
+</ul>
+<h3 id="us-015--high-value-transaction-flagging">US-015 — High-Value Transaction Flagging</h3><ul>
+<li><strong>Actor:</strong> System (Fraud Monitoring)</li>
+<li><strong>Story:</strong> As the system, I want to flag transactions above a configurable threshold so that suspicious activity can be reviewed.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Transactions above the configured threshold are marked with status FLAGGED.</li>
+<li>The transaction still completes unless other rules reject it.</li>
+<li>A notification is generated for the flagged transaction.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-016--audit-logging-of-key-operations">US-016 — Audit Logging of Key Operations</h3><ul>
+<li><strong>Actor:</strong> System (Audit)</li>
+<li><strong>Story:</strong> As the system, I want to log key operations so that administrators can trace activity.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Audit records are created for login, account creation, transfer, payment, loan actions, and service request updates.</li>
+<li>Each record includes actor, action, timestamp, and outcome.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-017--employee-onboards-a-customer">US-017 — Employee Onboards a Customer</h3><ul>
+<li><strong>Actor:</strong> Bank Employee</li>
+<li><strong>Story:</strong> As an employee, I want to onboard a customer so that they can start using banking services.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only EMPLOYEE or ADMIN roles can onboard.</li>
+<li>Customer is created with ACTIVE status.</li>
+<li>An initial account may be created as part of onboarding.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<h3 id="us-018--view-payment-history">US-018 — View Payment History</h3><ul>
+<li><strong>Actor:</strong> Customer</li>
+<li><strong>Story:</strong> As a customer, I want to view my payment history so that I can track past bill payments.</li>
+<li><strong>Acceptance Criteria:</strong><ul>
+<li>Only the customer's own payments are returned.</li>
+<li>Payments include category, amount, status, and timestamp.</li>
+</ul>
+</li>
+<li><strong>Priority:</strong> P1</li>
+</ul>
+<hr>
+<h2 id="9-functional-requirements">9. Functional Requirements</h2><h3 id="91-authentication-fr-auth">9.1 Authentication (FR-AUTH)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-AUTH-001</td>
+<td>The system shall allow a customer to register with name, email, phone, and password.</td>
+<td>Customer</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-AUTH-002</td>
+<td>The system shall reject registration if the email is invalid or already exists.</td>
+<td>Customer</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-AUTH-003</td>
+<td>The system shall hash passwords using BCrypt before storage.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-AUTH-004</td>
+<td>The system shall issue a JWT upon successful login for customers, employees, and admins.</td>
+<td>All</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-AUTH-005</td>
+<td>The system shall reject invalid login attempts with a generic error message.</td>
+<td>All</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-AUTH-006</td>
+<td>The system shall include the user's role inside the JWT.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+</tbody></table>
+<h3 id="92-customer-management-fr-cust">9.2 Customer Management (FR-CUST)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-CUST-001</td>
+<td>The system shall allow customers to view their own profile.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-CUST-002</td>
+<td>The system shall allow customers to update their own profile (limited fields).</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-CUST-003</td>
+<td>The system shall allow employees/admins to onboard a new customer.</td>
+<td>Employee/Admin</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-CUST-004</td>
+<td>The system shall allow employees/admins to look up customers by ID or email.</td>
+<td>Employee/Admin</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-CUST-005</td>
+<td>The system shall maintain customer status (ACTIVE, INACTIVE, BLOCKED).</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+</tbody></table>
+<h3 id="93-account-management-fr-acc">9.3 Account Management (FR-ACC)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-ACC-001</td>
+<td>The system shall allow creation of a bank account linked to a customer.</td>
+<td>Customer/Employee</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-ACC-002</td>
+<td>The system shall allow customers to view their own accounts.</td>
+<td>Customer</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-ACC-003</td>
+<td>The system shall allow customers to view the balance of their own accounts.</td>
+<td>Customer</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-ACC-004</td>
+<td>The system shall maintain account status (ACTIVE, INACTIVE, BLOCKED, CLOSED).</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-ACC-005</td>
+<td>The system shall reject operations on non-active accounts.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+</tbody></table>
+<h3 id="94-transaction-management-fr-txn">9.4 Transaction Management (FR-TXN)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-TXN-001</td>
+<td>The system shall allow internal money transfers between accounts.</td>
+<td>Customer</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-TXN-002</td>
+<td>The system shall reject transfers where the amount is zero or negative.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-TXN-003</td>
+<td>The system shall reject transfers where the source account has insufficient balance.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-TXN-004</td>
+<td>The system shall debit the source and credit the destination atomically.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-TXN-005</td>
+<td>The system shall record every transaction with a unique ID, status, and timestamp.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-TXN-006</td>
+<td>The system shall allow customers to view transaction history for their own accounts.</td>
+<td>Customer</td>
+<td>P0</td>
+</tr>
+</tbody></table>
+<h3 id="95-payment-management-fr-pay">9.5 Payment Management (FR-PAY)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-PAY-001</td>
+<td>The system shall allow bill payments in categories: Electricity, Mobile, Internet, Water.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-PAY-002</td>
+<td>The system shall mock the payment gateway and return deterministic results.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-PAY-003</td>
+<td>The system shall debit the customer's account on successful payment.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-PAY-004</td>
+<td>The system shall record every payment with status and timestamp.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-PAY-005</td>
+<td>The system shall allow customers to view their payment history.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+</tbody></table>
+<h3 id="96-loan-management-fr-loan">9.6 Loan Management (FR-LOAN)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-LOAN-001</td>
+<td>The system shall allow customers to submit a loan application.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-LOAN-002</td>
+<td>The system shall set initial loan status to PENDING.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-LOAN-003</td>
+<td>The system shall allow customers to view their own loan applications.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-LOAN-004</td>
+<td>The system shall allow employees/admins to approve or reject a loan.</td>
+<td>Employee/Admin</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-LOAN-005</td>
+<td>The system shall generate a notification on loan status change.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+</tbody></table>
+<h3 id="97-service-requests-fr-sr">9.7 Service Requests (FR-SR)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-SR-001</td>
+<td>The system shall allow customers to raise a service request with category and description.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-SR-002</td>
+<td>The system shall set initial service request status to OPEN.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-SR-003</td>
+<td>The system shall allow customers to view their own service requests.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-SR-004</td>
+<td>The system shall allow employees/admins to update service request status.</td>
+<td>Employee/Admin</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-SR-005</td>
+<td>The system shall generate a notification on service request status change.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+</tbody></table>
+<h3 id="98-notification-management-fr-notif">9.8 Notification Management (FR-NOTIF)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-NOTIF-001</td>
+<td>The system shall generate notifications for transactions, payments, loans, and service requests.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-NOTIF-002</td>
+<td>The system shall persist notifications in the database (no real email/SMS).</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-NOTIF-003</td>
+<td>The system shall allow customers to view their own notification history.</td>
+<td>Customer</td>
+<td>P1</td>
+</tr>
+</tbody></table>
+<h3 id="99-fraud-monitoring-fr-fraud">9.9 Fraud Monitoring (FR-FRAUD)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-FRAUD-001</td>
+<td>The system shall flag transactions above a configurable threshold.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-FRAUD-002</td>
+<td>The system shall reject transactions from inactive or blocked accounts.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>FR-FRAUD-003</td>
+<td>The system shall reject transactions exceeding available balance.</td>
+<td>System</td>
+<td>P0</td>
+</tr>
+</tbody></table>
+<h3 id="910-audit-and-compliance-fr-audit">9.10 Audit and Compliance (FR-AUDIT)</h3><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Actor</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FR-AUDIT-001</td>
+<td>The system shall log audit records for login, account creation, transfer, payment, loan actions, and service request updates.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>FR-AUDIT-002</td>
+<td>Each audit record shall capture actor, action, timestamp, and outcome.</td>
+<td>System</td>
+<td>P1</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="10-business-rules">10. Business Rules</h2><p>The following business rules must be enforced by the system. They are intentionally kept simple so they can be implemented within one week.</p>
+<ol>
+<li><strong>BR-001</strong> — A customer's email address must be unique across the system.</li>
+<li><strong>BR-002</strong> — Passwords must never be stored in plain text. BCrypt hashing is mandatory.</li>
+<li><strong>BR-003</strong> — Only authenticated users can access protected banking operations.</li>
+<li><strong>BR-004</strong> — Customers can access only their own accounts, transactions, payments, loans, service requests, and notifications.</li>
+<li><strong>BR-005</strong> — Only ACTIVE accounts can perform transactions or payments.</li>
+<li><strong>BR-006</strong> — Transfer amount must be greater than zero.</li>
+<li><strong>BR-007</strong> — The source account must have sufficient balance for a transfer or payment.</li>
+<li><strong>BR-008</strong> — Both source and destination accounts must exist for a transfer.</li>
+<li><strong>BR-009</strong> — Source and destination accounts must be different.</li>
+<li><strong>BR-010</strong> — Every transaction must have a clear status (SUCCESS, FAILED, PENDING, FLAGGED).</li>
+<li><strong>BR-011</strong> — Transactions from BLOCKED or INACTIVE accounts must be rejected.</li>
+<li><strong>BR-012</strong> — Transactions above the configured high-value threshold must be flagged.</li>
+<li><strong>BR-013</strong> — Only EMPLOYEE or ADMIN roles can approve or reject loan applications.</li>
+<li><strong>BR-014</strong> — Only EMPLOYEE or ADMIN roles can update service request status.</li>
+<li><strong>BR-015</strong> — Important banking operations must generate audit records.</li>
+<li><strong>BR-016</strong> — Important banking operations should generate notifications.</li>
+</ol>
+<hr>
+<h2 id="11-non-functional-requirements">11. Non-Functional Requirements</h2><h3 id="111-security">11.1 Security</h3><ul>
+<li>All protected APIs require a valid JWT.</li>
+<li>Role-based authorization is enforced at the API level.</li>
+<li>Passwords are hashed using BCrypt.</li>
+<li>Sensitive data (passwords, tokens) is never logged.</li>
+<li>Input validation is applied on all endpoints.</li>
+</ul>
+<h3 id="112-performance">11.2 Performance</h3><ul>
+<li>APIs respond within a reasonable time for an MVP (target: &lt; 1 second for simple reads, &lt; 2 seconds for writes).</li>
+<li>No unrealistic production-grade SLAs are required.</li>
+</ul>
+<h3 id="113-availability">11.3 Availability</h3><ul>
+<li>Services handle downstream failures gracefully (clear error messages, no silent failures).</li>
+<li>Circuit breaking is <strong>not required</strong> for the MVP but services should not crash on downstream errors.</li>
+</ul>
+<h3 id="114-scalability">11.4 Scalability</h3><ul>
+<li>Services are independently deployable.</li>
+<li>State is stored in databases, not in memory, so services can scale horizontally in the future.</li>
+</ul>
+<h3 id="115-maintainability">11.5 Maintainability</h3><ul>
+<li>Clear separation of concerns: Controller, Service, Repository, DTO, Entity, Exception Handler.</li>
+<li>Consistent package structure across services.</li>
+</ul>
+<h3 id="116-reliability">11.6 Reliability</h3><ul>
+<li>Money transfers and payments maintain consistent account balances (atomic updates within a single service).</li>
+</ul>
+<h3 id="117-observability">11.7 Observability</h3><ul>
+<li>Spring Boot Actuator health endpoints enabled.</li>
+<li>Structured logging with meaningful log levels (INFO, WARN, ERROR).</li>
+</ul>
+<h3 id="118-auditability">11.8 Auditability</h3><ul>
+<li>Important operations are traceable via audit records.</li>
+</ul>
+<h3 id="119-usability-api">11.9 Usability (API)</h3><ul>
+<li>APIs return consistent, well-structured responses.</li>
+<li>Error responses include timestamp, status, error code, message, and path.</li>
+</ul>
+<hr>
+<h2 id="12-technology-stack">12. Technology Stack</h2><h3 id="121-mandatory">12.1 Mandatory</h3><ul>
+<li><strong>Java 21</strong></li>
+<li><strong>Spring Boot 3.x</strong></li>
+<li><strong>Spring Web</strong> (REST APIs)</li>
+<li><strong>Spring Data JPA</strong> + <strong>Hibernate</strong></li>
+<li><strong>Spring Security</strong> + <strong>JWT</strong> + <strong>BCrypt</strong></li>
+<li><strong>Spring Cloud Gateway</strong></li>
+<li><strong>Eureka</strong> (Service Discovery)</li>
+<li><strong>PostgreSQL</strong></li>
+<li><strong>Jakarta Bean Validation</strong></li>
+<li><strong>JUnit 5</strong> + <strong>Mockito</strong></li>
+<li><strong>OpenAPI / Swagger</strong></li>
+<li><strong>Gradle</strong></li>
+<li><strong>Git</strong> + <strong>GitHub</strong></li>
+</ul>
+<h3 id="122-recommended">12.2 Recommended</h3><ul>
+<li><strong>RestClient</strong> or <strong>WebClient</strong> for inter-service calls</li>
+<li><strong>Spring Boot Actuator</strong> for health checks</li>
+<li><strong>Docker</strong> + <strong>Docker Compose</strong> for running all services locally</li>
+</ul>
+<h3 id="123-optional-do-not-introduce-unless-justified">12.3 Optional (do not introduce unless justified)</h3><ul>
+<li><strong>Redis</strong> (caching)</li>
+<li><strong>Kafka / RabbitMQ</strong> (event streaming)</li>
+<li><strong>Kubernetes</strong> (orchestration)</li>
+<li><strong>AWS / cloud providers</strong></li>
+<li><strong>Elasticsearch</strong> (search)</li>
+</ul>
+<blockquote>
+<p><strong>Guideline:</strong> For a one-week MVP, prefer the <strong>Mandatory</strong> stack. Use <strong>Recommended</strong> items only where they add clear value. Avoid <strong>Optional</strong> items entirely.</p>
+</blockquote>
+<hr>
+<h2 id="13-microservices-requirements">13. Microservices Requirements</h2><p>The system must contain <strong>at least 6 independently deployable microservices</strong>. The following 8 services are proposed. Services marked <strong>Mandatory</strong> must be implemented for the MVP. Services marked <strong>Simplifiable</strong> may be reduced in scope or combined if needed to meet the one-week timeline — but each must still have a clear business responsibility.</p>
+<h3 id="131-api-gateway-service">13.1 API Gateway Service</h3><ul>
+<li><strong>Responsibility:</strong> Single entry point for all clients. Routes requests to downstream services. Enforces cross-cutting concerns (CORS, request logging).</li>
+<li><strong>Main capabilities:</strong> Routing, request/response transformation, aggregation of auth headers.</li>
+<li><strong>Data owned:</strong> None (stateless).</li>
+<li><strong>Actors:</strong> All clients.</li>
+<li><strong>Dependencies:</strong> Eureka, all downstream services.</li>
+<li><strong>Mandatory:</strong> ✅ Yes</li>
+</ul>
+<h3 id="132-authentication-service">13.2 Authentication Service</h3><ul>
+<li><strong>Responsibility:</strong> Handles registration, login, JWT issuance, and validation support.</li>
+<li><strong>Main capabilities:</strong> Register, login, role assignment, password hashing.</li>
+<li><strong>Data owned:</strong> Users, credentials, roles.</li>
+<li><strong>Actors:</strong> Customer, Employee, Admin.</li>
+<li><strong>Dependencies:</strong> Customer Service (to verify/create customer records during registration).</li>
+<li><strong>Mandatory:</strong> ✅ Yes</li>
+</ul>
+<h3 id="133-customer-service">13.3 Customer Service</h3><ul>
+<li><strong>Responsibility:</strong> Manages customer profiles and onboarding.</li>
+<li><strong>Main capabilities:</strong> Create, read, update customers; lookup by email/ID.</li>
+<li><strong>Data owned:</strong> Customer profiles.</li>
+<li><strong>Actors:</strong> Customer, Employee, Admin.</li>
+<li><strong>Dependencies:</strong> None (core service).</li>
+<li><strong>Mandatory:</strong> ✅ Yes</li>
+</ul>
+<h3 id="134-account-service">13.4 Account Service</h3><ul>
+<li><strong>Responsibility:</strong> Manages bank accounts and balances.</li>
+<li><strong>Main capabilities:</strong> Create account, view account, view balance, list accounts per customer, debit/credit operations.</li>
+<li><strong>Data owned:</strong> Accounts, balances.</li>
+<li><strong>Actors:</strong> Customer, Employee, Admin, Transaction Service, Payment Service.</li>
+<li><strong>Dependencies:</strong> Customer Service (to validate customer existence).</li>
+<li><strong>Mandatory:</strong> ✅ Yes</li>
+</ul>
+<h3 id="135-transaction-service">13.5 Transaction Service</h3><ul>
+<li><strong>Responsibility:</strong> Processes money transfers and maintains transaction history.</li>
+<li><strong>Main capabilities:</strong> Transfer funds, record transactions, view history, apply fraud rules.</li>
+<li><strong>Data owned:</strong> Transactions.</li>
+<li><strong>Actors:</strong> Customer, Employee, Admin.</li>
+<li><strong>Dependencies:</strong> Account Service (validate, debit, credit), Notification Service (optional for MVP).</li>
+<li><strong>Mandatory:</strong> ✅ Yes</li>
+</ul>
+<h3 id="136-payment-service--simplifiable">13.6 Payment Service — <em>Simplifiable</em></h3><ul>
+<li><strong>Responsibility:</strong> Handles bill payments with a mocked payment gateway.</li>
+<li><strong>Main capabilities:</strong> Initiate payment, record payment, view payment history.</li>
+<li><strong>Data owned:</strong> Payments.</li>
+<li><strong>Actors:</strong> Customer.</li>
+<li><strong>Dependencies:</strong> Account Service (debit), Notification Service (optional).</li>
+<li><strong>Mandatory for MVP:</strong> ⚠️ P1 — may be simplified to a single endpoint with mocked gateway.</li>
+</ul>
+<h3 id="137-loan-service--simplifiable">13.7 Loan Service — <em>Simplifiable</em></h3><ul>
+<li><strong>Responsibility:</strong> Manages loan applications and approvals.</li>
+<li><strong>Main capabilities:</strong> Submit loan, view loans, approve/reject.</li>
+<li><strong>Data owned:</strong> Loan applications.</li>
+<li><strong>Actors:</strong> Customer, Employee, Admin.</li>
+<li><strong>Dependencies:</strong> Customer Service (validate customer), Notification Service (optional).</li>
+<li><strong>Mandatory for MVP:</strong> ⚠️ P1 — may be simplified to basic CRUD + status transitions.</li>
+</ul>
+<h3 id="138-notification-service--simplifiable">13.8 Notification Service — <em>Simplifiable</em></h3><ul>
+<li><strong>Responsibility:</strong> Generates and stores notifications.</li>
+<li><strong>Main capabilities:</strong> Create notification, list notifications per customer.</li>
+<li><strong>Data owned:</strong> Notifications.</li>
+<li><strong>Actors:</strong> Customer, internal services.</li>
+<li><strong>Dependencies:</strong> None.</li>
+<li><strong>Mandatory for MVP:</strong> ⚠️ P1 — may be simplified to a synchronous REST call that persists to DB.</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> Service Requests (US-010, US-011) can be hosted inside the <strong>Customer Service</strong> for the MVP to avoid creating a ninth service. If the team prefers, a separate <strong>Service Request Service</strong> may be created, but it is not required.</p>
+</blockquote>
+<hr>
+<h2 id="14-data-and-database-requirements">14. Data and Database Requirements</h2><ul>
+<li>Each business service owns its own <strong>PostgreSQL database</strong>.</li>
+<li><strong>No service may directly access another service's database.</strong> All cross-service data must be retrieved via REST APIs.</li>
+<li>Databases are named logically (e.g., <code>auth_db</code>, <code>customer_db</code>, <code>account_db</code>, <code>transaction_db</code>, <code>payment_db</code>, <code>loan_db</code>, <code>notification_db</code>).</li>
+<li>Detailed schemas, tables, and columns are <strong>out of scope</strong> for this document and will be defined in <code>spec.md</code>.</li>
+<li>Each service manages its own schema migrations (e.g., via Flyway or simple JPA auto-DDL for the MVP).</li>
+</ul>
+<hr>
+<h2 id="15-api-requirements">15. API Requirements</h2><p>APIs are exposed through the API Gateway. The paths below are <strong>conceptual</strong> — final paths will be defined in <code>spec.md</code>.</p>
+<h3 id="151-authentication">15.1 Authentication</h3><ul>
+<li><code>POST /auth/register</code> — Register a new customer.</li>
+<li><code>POST /auth/login</code> — Authenticate and receive a JWT.</li>
+</ul>
+<h3 id="152-customers">15.2 Customers</h3><ul>
+<li><code>GET /customers/{id}</code> — View customer profile.</li>
+<li><code>PUT /customers/{id}</code> — Update customer profile.</li>
+<li><code>POST /customers</code> — Onboard a customer (employee/admin).</li>
+</ul>
+<h3 id="153-accounts">15.3 Accounts</h3><ul>
+<li><code>POST /accounts</code> — Create a new account.</li>
+<li><code>GET /accounts/{id}</code> — View account details.</li>
+<li><code>GET /accounts/customer/{customerId}</code> — List accounts of a customer.</li>
+<li><code>GET /accounts/{id}/balance</code> — View account balance.</li>
+</ul>
+<h3 id="154-transactions">15.4 Transactions</h3><ul>
+<li><code>POST /transactions/transfer</code> — Transfer money between accounts.</li>
+<li><code>GET /transactions/{id}</code> — View a specific transaction.</li>
+<li><code>GET /transactions/account/{accountId}</code> — View transaction history of an account.</li>
+</ul>
+<h3 id="155-payments">15.5 Payments</h3><ul>
+<li><code>POST /payments</code> — Initiate a bill payment.</li>
+<li><code>GET /payments/{id}</code> — View a specific payment.</li>
+<li><code>GET /payments/customer/{customerId}</code> — View payment history.</li>
+</ul>
+<h3 id="156-loans">15.6 Loans</h3><ul>
+<li><code>POST /loans</code> — Submit a loan application.</li>
+<li><code>GET /loans/{id}</code> — View a loan application.</li>
+<li><code>GET /loans/customer/{customerId}</code> — View customer's loans.</li>
+<li><code>PUT /loans/{id}/approve</code> — Approve a loan (employee/admin).</li>
+<li><code>PUT /loans/{id}/reject</code> — Reject a loan (employee/admin).</li>
+</ul>
+<h3 id="157-service-requests">15.7 Service Requests</h3><ul>
+<li><code>POST /service-requests</code> — Raise a service request.</li>
+<li><code>GET /service-requests/{id}</code> — View a service request.</li>
+<li><code>GET /service-requests/customer/{customerId}</code> — View customer's requests.</li>
+<li><code>PUT /service-requests/{id}/status</code> — Update status (employee/admin).</li>
+</ul>
+<h3 id="158-notifications">15.8 Notifications</h3><ul>
+<li><code>GET /notifications/customer/{customerId}</code> — View customer's notifications.</li>
+</ul>
+<hr>
+<h2 id="16-security-requirements">16. Security Requirements</h2><ul>
+<li><strong>Authentication:</strong> JWT-based. Tokens issued on login, validated on every protected request.</li>
+<li><strong>Authorization:</strong> Role-based. Roles: <code>CUSTOMER</code>, <code>EMPLOYEE</code>, <code>ADMIN</code>.</li>
+<li><strong>Password Storage:</strong> BCrypt hashing. Plain-text passwords are forbidden.</li>
+<li><strong>Protected APIs:</strong> All banking operations require a valid JWT.</li>
+<li><strong>Ownership Checks:</strong> Customers can access only their own data.</li>
+<li><strong>Input Validation:</strong> All endpoints validate input using Jakarta Bean Validation.</li>
+<li><strong>Sensitive Data:</strong> Passwords, tokens, and other secrets must never appear in logs or API responses.</li>
+<li><strong>Error Messages:</strong> Login failures return generic messages (no user enumeration).</li>
+</ul>
+<hr>
+<h2 id="17-inter-service-communication">17. Inter-Service Communication</h2><p>All inter-service communication is <strong>synchronous REST</strong> for the MVP. Example flows:</p>
+<pre><code class="hljs plaintext">Transaction Service  --REST--&gt;  Account Service    (validate, debit, credit)
+Transaction Service  --REST--&gt;  Notification Service (optional, on success)
+Payment Service      --REST--&gt;  Account Service    (debit)
+Payment Service      --REST--&gt;  Notification Service (optional)
+Loan Service         --REST--&gt;  Customer Service   (validate customer)
+Loan Service         --REST--&gt;  Notification Service (optional)
+Auth Service         --REST--&gt;  Customer Service   (create/verify customer)</code></pre><ul>
+<li>No event-driven architecture (Kafka/RabbitMQ) is required for the MVP.</li>
+<li>Timeouts and clear error handling are required on all inter-service calls.</li>
+</ul>
+<hr>
+<h2 id="18-error-handling">18. Error Handling</h2><p>All services return a <strong>consistent error response</strong> with the following conceptual fields:</p>
+<ul>
+<li><code>timestamp</code> — when the error occurred</li>
+<li><code>status</code> — HTTP status code</li>
+<li><code>errorCode</code> — a stable business error code (e.g., <code>INSUFFICIENT_BALANCE</code>)</li>
+<li><code>message</code> — human-readable description</li>
+<li><code>path</code> — the request path</li>
+</ul>
+<p>Common error scenarios:</p>
+<ul>
+<li>Customer not found</li>
+<li>Account not found</li>
+<li>Insufficient balance</li>
+<li>Invalid credentials</li>
+<li>Unauthorized access</li>
+<li>Invalid transaction (e.g., zero amount, same source/destination)</li>
+<li>Loan not found</li>
+<li>Payment failure</li>
+<li>Service request not found</li>
+</ul>
+<p>Detailed error codes and response structure will be finalized in <code>spec.md</code>.</p>
+<hr>
+<h2 id="19-logging-and-auditing">19. Logging and Auditing</h2><h3 id="191-application-logging">19.1 Application Logging</h3><ul>
+<li>Structured logs at INFO, WARN, ERROR levels.</li>
+<li>No sensitive data (passwords, tokens) in logs.</li>
+<li>Request/response correlation via trace IDs where practical.</li>
+</ul>
+<h3 id="192-audit-logging">19.2 Audit Logging</h3><p>Audit records are created for:</p>
+<ul>
+<li>Login (success and failure)</li>
+<li>Account creation</li>
+<li>Account updates</li>
+<li>Money transfers</li>
+<li>Payments</li>
+<li>Loan submission, approval, rejection</li>
+<li>Service request status updates</li>
+</ul>
+<p>Each audit record captures:</p>
+<ul>
+<li><strong>WHO</strong> — the actor (user ID and role)</li>
+<li><strong>WHAT</strong> — the action performed</li>
+<li><strong>WHEN</strong> — timestamp</li>
+<li><strong>OUTCOME</strong> — success or failure (and reason on failure)</li>
+</ul>
+<hr>
+<h2 id="20-mvp-priorities">20. MVP Priorities</h2><h3 id="201-priority-definitions">20.1 Priority Definitions</h3><ul>
+<li><strong>P0</strong> — Mandatory for MVP. Without this, the system is not functional.</li>
+<li><strong>P1</strong> — Important. Should be included in the MVP but may be simplified if time is tight.</li>
+<li><strong>P2</strong> — Optional / future enhancement.</li>
+</ul>
+<h3 id="202-minimum-p0-flow">20.2 Minimum P0 Flow</h3><p>The following flow <strong>must</strong> work end-to-end in the MVP:</p>
+<pre><code class="hljs plaintext">Customer Registration
+        ↓
+Customer Login (JWT)
+        ↓
+View Account
+        ↓
+Check Balance
+        ↓
+Transfer Money
+        ↓
+View Transaction History</code></pre><h3 id="203-p1-functionality">20.3 P1 Functionality</h3><p>These should be included if time permits, possibly in simplified form:</p>
+<ul>
+<li>Bill payments</li>
+<li>Loan applications and approvals</li>
+<li>Service requests</li>
+<li>Notifications</li>
+<li>Fraud flagging</li>
+<li>Audit logging</li>
+<li>Employee onboarding</li>
+</ul>
+<h3 id="204-p2-functionality-future">20.4 P2 Functionality (Future)</h3><ul>
+<li>Real payment gateway integration</li>
+<li>Real email/SMS notifications</li>
+<li>Advanced fraud detection</li>
+<li>Multi-currency support</li>
+<li>UI layer</li>
+</ul>
+<hr>
+<h2 id="21-assumptions-and-constraints">21. Assumptions and Constraints</h2><h3 id="211-assumptions">21.1 Assumptions</h3><ul>
+<li>The development team has basic familiarity with Java, Spring Boot, and PostgreSQL.</li>
+<li>A local development environment with Java 21, Gradle, and PostgreSQL is available.</li>
+<li>Docker is available but not mandatory for the MVP.</li>
+<li>External systems (payment gateway, email/SMS) are mocked.</li>
+<li>The MVP is educational — it does not need to handle production banking loads.</li>
+</ul>
+<h3 id="212-constraints">21.2 Constraints</h3><ul>
+<li><strong>Timeline:</strong> ~1 week for a small team.</li>
+<li><strong>Scope:</strong> Simplicity over feature volume.</li>
+<li><strong>No real money movement.</strong></li>
+<li><strong>No real external integrations.</strong></li>
+<li><strong>No advanced infrastructure</strong> (Kubernetes, Kafka, cloud providers).</li>
+</ul>
+<hr>
+<h2 id="22-future-enhancements">22. Future Enhancements</h2><p>The following are explicitly deferred to post-MVP iterations:</p>
+<ul>
+<li>Real payment gateway integration</li>
+<li>Real email and SMS notifications</li>
+<li>Event-driven architecture (Kafka/RabbitMQ) for notifications and audit</li>
+<li>Machine learning-based fraud detection</li>
+<li>Credit bureau and KYC/AML integrations</li>
+<li>Multi-currency and international transfers</li>
+<li>Mobile and web UI</li>
+<li>Kubernetes deployment</li>
+<li>Advanced observability (distributed tracing, metrics dashboards)</li>
+<li>Production-grade disaster recovery</li>
+</ul>
+<hr>
+<h2 id="23-traceability-matrix">23. Traceability Matrix</h2><p>The matrix below connects each user story to its functional requirements, responsible microservice, and priority.</p>
+<table>
+<thead>
+<tr>
+<th>User Story</th>
+<th>Functional Requirement(s)</th>
+<th>Microservice</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>US-001 — Customer Registration</td>
+<td>FR-AUTH-001, FR-AUTH-002, FR-AUTH-003</td>
+<td>Auth Service, Customer Service</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>US-002 — Customer Login</td>
+<td>FR-AUTH-004, FR-AUTH-005, FR-AUTH-006</td>
+<td>Auth Service</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>US-003 — Employee/Admin Login</td>
+<td>FR-AUTH-004, FR-AUTH-005, FR-AUTH-006</td>
+<td>Auth Service</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>US-004 — View Account Balance</td>
+<td>FR-ACC-003, FR-ACC-005</td>
+<td>Account Service</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>US-005 — Transfer Money</td>
+<td>FR-TXN-001, FR-TXN-002, FR-TXN-003, FR-TXN-004, FR-TXN-005</td>
+<td>Transaction Service, Account Service</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>US-006 — View Transaction History</td>
+<td>FR-TXN-006</td>
+<td>Transaction Service</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>US-007 — Pay a Bill</td>
+<td>FR-PAY-001, FR-PAY-002, FR-PAY-003, FR-PAY-004</td>
+<td>Payment Service, Account Service</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-008 — Apply for a Loan</td>
+<td>FR-LOAN-001, FR-LOAN-002</td>
+<td>Loan Service</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-009 — Approve/Reject Loan</td>
+<td>FR-LOAN-004, FR-LOAN-005</td>
+<td>Loan Service</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-010 — Raise Service Request</td>
+<td>FR-SR-001, FR-SR-002</td>
+<td>Customer Service (or Service Request Service)</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-011 — Update Service Request</td>
+<td>FR-SR-004, FR-SR-005</td>
+<td>Customer Service (or Service Request Service)</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-012 — View Notifications</td>
+<td>FR-NOTIF-003</td>
+<td>Notification Service</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-013 — View Customer Profile</td>
+<td>FR-CUST-001</td>
+<td>Customer Service</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-014 — View Account Details</td>
+<td>FR-ACC-002, FR-ACC-004</td>
+<td>Account Service</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>US-015 — High-Value Transaction Flagging</td>
+<td>FR-FRAUD-001</td>
+<td>Transaction Service</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-016 — Audit Logging</td>
+<td>FR-AUDIT-001, FR-AUDIT-002</td>
+<td>All services (audit module)</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-017 — Employee Onboards Customer</td>
+<td>FR-CUST-003, FR-CUST-005</td>
+<td>Customer Service</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>US-018 — View Payment History</td>
+<td>FR-PAY-005</td>
+<td>Payment Service</td>
+<td>P1</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="24-quality-checklist-self-verification">24. Quality Checklist (Self-Verification)</h2><p>Before development begins, the team should confirm the following:</p>
+<ul>
+<li>✅ At least 15 user stories defined (18 provided).</li>
+<li>✅ At least 6 microservices defined (8 proposed; 5 mandatory + 3 simplifiable).</li>
+<li>✅ Every microservice has a clear responsibility and data ownership.</li>
+<li>✅ Requirements are testable and unambiguous.</li>
+<li>✅ No implementation code, SQL scripts, or configuration files included.</li>
+<li>✅ Project is realistically achievable in one week.</li>
+<li>✅ Security, authentication, and authorization requirements are present.</li>
+<li>✅ Database-per-service approach is defined.</li>
+<li>✅ Inter-service REST communication is documented.</li>
+<li>✅ API Gateway and Eureka service discovery are addressed.</li>
+<li>✅ PostgreSQL is the chosen database.</li>
+<li>✅ REST APIs are defined at a conceptual level.</li>
+<li>✅ Audit logging and basic fraud monitoring are addressed.</li>
+<li>✅ Notifications, loans, payments, and service requests are covered.</li>
+<li>✅ Customer and employee workflows are included.</li>
+<li>✅ P0 / P1 / P2 priorities are clearly assigned.</li>
+<li>✅ Every user story has acceptance criteria.</li>
+<li>✅ A traceability matrix is provided.</li>
+<li>✅ No unnecessary technologies have been introduced.</li>
+</ul>
+<hr>
+<p><strong>End of Requirement Specification — InfyBank360 v1.0</strong></p>
+<blockquote>
+<p>The next step is to produce the technical specification (<code>spec.md</code>), which will describe <strong>how</strong> each requirement is implemented — including package structure, entity design, API contracts, database schemas, and service configurations.</p>
+</blockquote>
+
+  </article>
+      <script>
+      function fitMarkdownExportToContent() {
+          var article = document.querySelector('.markdown-body');
+          if (!article) return;
+
+          article.style.width = '';
+          article.style.maxWidth = '980px';
+
+          var overflow = article.scrollWidth - article.clientWidth;
+          if (overflow <= 1) return;
+
+          var styles = window.getComputedStyle(article);
+          var paddingLeft = parseFloat(styles.paddingLeft) || 0;
+          var paddingRight = parseFloat(styles.paddingRight) || 0;
+          var borderRight = parseFloat(styles.borderRightWidth) || 0;
+          var borderLeft = parseFloat(styles.borderLeftWidth) || 0;
+          var boxSizing = styles.boxSizing;
+
+          var requiredWidth = boxSizing === 'border-box'
+              ? Math.ceil(article.scrollWidth + borderLeft + borderRight)
+              : Math.ceil(article.scrollWidth - paddingLeft - paddingRight);
+
+          article.style.width = requiredWidth + 'px';
+          article.style.maxWidth = 'none';
+      }
+
+      function queueMarkdownExportFit() {
+          window.requestAnimationFrame(function () {
+              window.requestAnimationFrame(fitMarkdownExportToContent);
+          });
+      }
+
+      window.addEventListener('load', function () {
+          var mathReady = Promise.resolve();
+          var article = document.querySelector('.markdown-body');
+          if (article && window.MutationObserver) {
+              new MutationObserver(queueMarkdownExportFit).observe(article, {
+                  childList: true,
+                  subtree: true
+              });
+          }
+          if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+              mathReady = window.MathJax.typesetPromise().catch(function (err) {
+                  console.warn('MathJax typeset failed:', err);
+              });
+          }
+          if (window.mermaid) {
+              try {
+                  window.mermaid.initialize({
+                      startOnLoad: false,
+                      theme: 'dark',
+                      securityLevel: 'loose',
+                      gantt: { useWidth: 1200 }
+                  });
+                  var mermaidNodes = document.querySelectorAll('.mermaid');
+                  if (mermaidNodes.length > 0) {
+                      mermaidNodes.forEach(function(node) {
+                          var rawCode = node.getAttribute('data-original-code');
+                          if (rawCode) {
+                              try { node.textContent = decodeURIComponent(rawCode); } catch (_) {}
+                          }
+                      });
+                      if (typeof window.mermaid.run === 'function') {
+                          window.mermaid.run({
+                              nodes: Array.from(mermaidNodes)
+                          }).then(function() {
+                              queueMarkdownExportFit();
+                          }).catch(function(err) {
+                              console.warn('Mermaid run error:', err);
+                          });
+                      } else if (typeof window.mermaid.init === 'function') {
+                          window.mermaid.init(undefined, mermaidNodes);
+                      }
+                  }
+              } catch (e) {
+                  console.warn('Mermaid initialization failed:', e);
+              }
+          }
+          if (window.ABCJS) {
+              try {
+                  var abcNodes = document.querySelectorAll('.abc-notation');
+                  abcNodes.forEach(function(node) {
+                      var code = decodeURIComponent(node.getAttribute('data-original-code') || '');
+                      if (code) {
+                          ABCJS.renderAbc(node.id, code, { responsive: 'resize' });
+                      }
+                      var container = node.closest('.abc-container');
+                      if (container) container.classList.remove('is-loading');
+                  });
+              } catch (e) {
+                  console.warn('ABCJS rendering failed:', e);
+              }
+          }
+          mathReady.finally(queueMarkdownExportFit);
+          queueMarkdownExportFit();
+      });
+      window.addEventListener('resize', queueMarkdownExportFit);
+  </script>
+</body>
+</html>
